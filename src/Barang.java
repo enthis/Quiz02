@@ -1,6 +1,6 @@
 public class Barang {
-    String nama;
-    int harga;
+    private String nama;
+    private int harga;
     Barang(String sNama,int iHarga){
         nama = sNama;
         harga = iHarga;
