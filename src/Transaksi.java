@@ -1,15 +1,14 @@
-import javax.xml.namespace.QName;
 
 public class Transaksi {
     private DetailBarangTransaksi[] daftarBarang = new DetailBarangTransaksi[100];
     private Karyawan cashier;
-    private String code;
-    private int day,year,month,hour,minute,second = 0;
-    private int totalHarga = 0, totalBarang = 0,totalQty = 0;
+    private String code, KodeCabang;
+    private int day, year, month, hour, minute, second = 0;
+    private int totalHarga = 0, totalBarang = 0, totalQty = 0;
 
-    Transaksi(String sCode,Karyawan kCashier,int iDay,int iYear,int imonth,int iHour, int iMinute,int iSecond) {
+    Transaksi(String sCode, Karyawan kCashier, int iDay, int iYear, int imonth, int iHour, int iMinute, int iSecond) {
         code = sCode;
-        
+
         this.cashier = kCashier;
         this.day = iDay;
         this.year = iYear;
@@ -19,10 +18,17 @@ public class Transaksi {
         this.second = iSecond;
     }
 
+    public void setKodeCabang(String sKodeCabang) {
+        this.KodeCabang = sKodeCabang;
+    }
+    public String getKodeCabang() {
+        return KodeCabang;
+    }
     public void showTransaksi(int withItem) {
-        System.out.println("Code Transaksi = "+this.code);
-        System.out.println("Nama Cashier = "+this.cashier.getNama());
-        System.out.println("Tanggal Transaksi = "+this.year+"-"+this.month+"-"+this.day+" "+this.hour+":"+this.minute+":"+this.second);
+        System.out.println("Code Transaksi = " + this.code);
+        System.out.println("Nama Cashier = " + this.cashier.getNama());
+        System.out.println("Tanggal Transaksi = " + this.year + "-" + this.month + "-" + this.day + " " + this.hour
+                + ":" + this.minute + ":" + this.second);
 
         if (withItem == 1) {
             System.out.println("----------------------------");
@@ -55,7 +61,7 @@ public class Transaksi {
         return nBarang;
     }
 
-    public void setDaftarBarang(Barang daftarBarang,int iQty) {
+    public void  setDaftarBarang(Barang daftarBarang, int iQty) {
         totalHarga = totalHarga + daftarBarang.getHarga();
         DetailBarangTransaksi dbt = new DetailBarangTransaksi(iQty, daftarBarang);
         this.daftarBarang[totalBarang] = dbt;
