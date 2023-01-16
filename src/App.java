@@ -18,15 +18,48 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        do {
+        App p = new App();
+        System.out.println(java.util.Calendar.getInstance().getTime());
+        Scanner sc = new Scanner(System.in);
+        CabangBSD cBsd = new CabangBSD();
+        CabangBekasi cBekasi = new CabangBekasi();
+        CabangPusat cPusat = new CabangPusat();
+        CabangSerpong cSerpong = new CabangSerpong();
 
-            App p = new App();
-            System.out.println(java.util.Calendar.getInstance().getTime());
-            Scanner sc = new Scanner(System.in);
-            CabangBSD cBsd = new CabangBSD();
-            CabangBekasi cBekasi = new CabangBekasi();
-            CabangPusat cPusat = new CabangPusat();
-            CabangSerpong cSerpong = new CabangSerpong();
+        int[] transactionDateTime2 = p.getCurrentDatetime();
+
+        String result2 = Arrays.stream(transactionDateTime2).mapToObj(String::valueOf)
+                .collect(Collectors.joining(""));
+        Transaksi ts1 = new Transaksi(result2, cPusat.getKaryawanByName("leo"), transactionDateTime2[0],
+                transactionDateTime2[2],
+                transactionDateTime2[1], transactionDateTime2[3], transactionDateTime2[4], transactionDateTime2[5]);
+        
+        Barang tmp = cPusat.getBarangById(1);
+        ts1.setDaftarBarang(tmp, 2);
+        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+        tmp = cPusat.getBarangById(2);
+        ts1.setDaftarBarang(tmp, 2);
+        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+        tmp = cPusat.getBarangById(4);
+        ts1.setDaftarBarang(cPusat.getBarangById(4), 10);
+        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+
+        transactionDateTime2 = p.getCurrentDatetime();
+        result2 = Arrays.stream(transactionDateTime2).mapToObj(String::valueOf)
+                .collect(Collectors.joining(""));
+        ts1 = new Transaksi(result2, cPusat.getKaryawanByName("leo"), transactionDateTime2[0], transactionDateTime2[2],
+                transactionDateTime2[1], transactionDateTime2[3], transactionDateTime2[4], transactionDateTime2[5]);
+        tmp = cPusat.getBarangById(1);
+        ts1.setDaftarBarang(tmp, 2);
+        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+        tmp = cPusat.getBarangById(1);
+        ts1.setDaftarBarang(tmp, 2);
+        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+        tmp = cPusat.getBarangById(4);
+        ts1.setDaftarBarang(cPusat.getBarangById(4), 10);
+        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+        cPusat.setDaftarTransaksi(ts1);
+        do {
             int menu = 0, cabangTerpilih = 0;
             String namaCabang;
             System.out.println("Aplikasi Toko Skin Care");
@@ -60,7 +93,10 @@ public class App {
             do {
                 System.out.println("Pilih Menu");
                 System.out.println("1. Buat Transaksi");
-                System.out.println("2. Tampilkan Semua Transaksi");
+                System.out.println("2. Tampilkan Transaksi");
+                System.out.println("3. Tampilkan Pendapatan PerHari");
+                System.out.println("4. Tampilkan Karyawan PerBulan");
+                System.out.print("Pilih Menu : ");
                 menu = sc.nextInt();
                 break;
             } while (true);
@@ -87,9 +123,17 @@ public class App {
                 } while (true);
                 cPusat.setDaftarTransaksi(ts);
 
-            }else if(menu == 2){
+            } else if (menu == 2) {
                 cPusat.showDaftarTransaksi();
+                System.out.println(menu);
+            } else if (menu == 3) {
+                cPusat.showLaporanPendapatanPerharis();
+            } else if (menu == 4) {
+                cPusat.showLaporanPendapatanPerBulan();
+            } else {
+                System.out.println("Pilihan menu salah");
             }
+            System.in.read();
         } while (true);
     }
 }

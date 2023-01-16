@@ -5,9 +5,11 @@ public class Transaksi {
     private String code, KodeCabang;
     private int day, year, month, hour, minute, second = 0;
     private int totalHarga = 0, totalBarang = 0, totalQty = 0;
-
+    public int getTotalBarang() {
+        return totalBarang;
+    }
     Transaksi(String sCode, Karyawan kCashier, int iDay, int iYear, int imonth, int iHour, int iMinute, int iSecond) {
-        code = sCode;
+        code = sCode+(int )(Math.random() * 50 + 1);
 
         this.cashier = kCashier;
         this.day = iDay;
@@ -53,20 +55,17 @@ public class Transaksi {
 
     }
 
-    public Barang[] getDaftarBarang() {
-        Barang[] nBarang = new Barang[daftarBarang.length];
-        for (int i = 0; i < this.totalBarang; i++) {
-            nBarang[i] = daftarBarang[i].getBarang();
-        }
-        return nBarang;
+    public DetailBarangTransaksi[] getDaftarBarang() {
+        return daftarBarang;
     }
-
+    
     public void  setDaftarBarang(Barang daftarBarang, int iQty) {
         totalHarga = totalHarga + daftarBarang.getHarga();
         DetailBarangTransaksi dbt = new DetailBarangTransaksi(iQty, daftarBarang);
         this.daftarBarang[totalBarang] = dbt;
         totalBarang = totalBarang + 1;
         totalQty = totalQty + iQty;
+        cashier.setLbk(new LaporanBarangKaryawan(daftarBarang.getNama(), iQty, daftarBarang.getHarga(), daftarBarang.getId()));
     }
 
     public String getCode() {
