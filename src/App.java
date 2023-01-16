@@ -2,7 +2,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 public class App {
     private int[] getCurrentDatetime() {
@@ -26,41 +25,6 @@ public class App {
         CabangPusat cPusat = new CabangPusat();
         CabangSerpong cSerpong = new CabangSerpong();
 
-        int[] transactionDateTime2 = p.getCurrentDatetime();
-
-        String result2 = Arrays.stream(transactionDateTime2).mapToObj(String::valueOf)
-                .collect(Collectors.joining(""));
-        Transaksi ts1 = new Transaksi(result2, cPusat.getKaryawanByName("leo"), transactionDateTime2[0],
-                transactionDateTime2[2],
-                transactionDateTime2[1], transactionDateTime2[3], transactionDateTime2[4], transactionDateTime2[5]);
-
-        Barang tmp = cPusat.getBarangById(1);
-        ts1.setDaftarBarang(tmp, 2);
-        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
-        tmp = cPusat.getBarangById(2);
-        ts1.setDaftarBarang(tmp, 2);
-        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
-        tmp = cPusat.getBarangById(4);
-        ts1.setDaftarBarang(cPusat.getBarangById(4), 10);
-        cPusat.setLbk(
-                new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
-
-        transactionDateTime2 = p.getCurrentDatetime();
-        result2 = Arrays.stream(transactionDateTime2).mapToObj(String::valueOf)
-                .collect(Collectors.joining(""));
-        ts1 = new Transaksi(result2, cPusat.getKaryawanByName("leo"), transactionDateTime2[0], transactionDateTime2[2],
-                transactionDateTime2[1], transactionDateTime2[3], transactionDateTime2[4], transactionDateTime2[5]);
-        tmp = cPusat.getBarangById(1);
-        ts1.setDaftarBarang(tmp, 2);
-        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
-        tmp = cPusat.getBarangById(1);
-        ts1.setDaftarBarang(tmp, 2);
-        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
-        tmp = cPusat.getBarangById(4);
-        ts1.setDaftarBarang(cPusat.getBarangById(4), 10);
-        cPusat.setLbk(
-                new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
-        cPusat.setDaftarTransaksi(ts1);
         do {
             int menu = 0, cabangTerpilih = 0;
             String namaCabang;
@@ -173,9 +137,75 @@ public class App {
                     System.out.println("Pilihan menu salah");
                 }
             } else if (cabangTerpilih == 3) {
+                if (menu == 1) {
+                    cBekasi.showDaftarBarang();
+                    System.out.print("Masukan Nama Kasir :");
+                    String namaKasir = sc.next();
+                    Karyawan cashier = new Karyawan(namaKasir);
+                    int[] transactionDateTime = p.getCurrentDatetime();
 
+                    String result = Arrays.stream(transactionDateTime).mapToObj(String::valueOf)
+                            .collect(Collectors.joining(""));
+                    Transaksi ts = new Transaksi(result, cashier, transactionDateTime[0], transactionDateTime[2],
+                            transactionDateTime[1], transactionDateTime[3], transactionDateTime[4],
+                            transactionDateTime[5]);
+                    do {
+                        System.out.print("Masukan Id Barang (ketik 0 untuk selesai) : ");
+                        int productId = sc.nextInt();
+                        if (productId == 0)
+                            break;
+                        System.out.print("Jumlah : ");
+                        int qty = sc.nextInt();
+                        Barang br = cBekasi.getBarangById(productId);
+                        ts.setDaftarBarang(br, qty);
+                    } while (true);
+                    cBekasi.setDaftarTransaksi(ts);
+
+                } else if (menu == 2) {
+                    cBekasi.showDaftarTransaksi();
+                    System.out.println(menu);
+                } else if (menu == 3) {
+                    cBekasi.showLaporanPendapatanPerharis();
+                } else if (menu == 4) {
+                    cBekasi.showLaporanPendapatanPerBulan();
+                } else {
+                    System.out.println("Pilihan menu salah");
+                }
             } else if (cabangTerpilih == 4) {
+                if (menu == 1) {
+                    cSerpong.showDaftarBarang();
+                    System.out.print("Masukan Nama Kasir :");
+                    String namaKasir = sc.next();
+                    Karyawan cashier = new Karyawan(namaKasir);
+                    int[] transactionDateTime = p.getCurrentDatetime();
 
+                    String result = Arrays.stream(transactionDateTime).mapToObj(String::valueOf)
+                            .collect(Collectors.joining(""));
+                    Transaksi ts = new Transaksi(result, cashier, transactionDateTime[0], transactionDateTime[2],
+                            transactionDateTime[1], transactionDateTime[3], transactionDateTime[4],
+                            transactionDateTime[5]);
+                    do {
+                        System.out.print("Masukan Id Barang (ketik 0 untuk selesai) : ");
+                        int productId = sc.nextInt();
+                        if (productId == 0)
+                            break;
+                        System.out.print("Jumlah : ");
+                        int qty = sc.nextInt();
+                        Barang br = cSerpong.getBarangById(productId);
+                        ts.setDaftarBarang(br, qty);
+                    } while (true);
+                    cSerpong.setDaftarTransaksi(ts);
+
+                } else if (menu == 2) {
+                    cSerpong.showDaftarTransaksi();
+                    System.out.println(menu);
+                } else if (menu == 3) {
+                    cSerpong.showLaporanPendapatanPerharis();
+                } else if (menu == 4) {
+                    cSerpong.showLaporanPendapatanPerBulan();
+                } else {
+                    System.out.println("Pilihan menu salah");
+                }
             }
             System.in.read();
         } while (true);
