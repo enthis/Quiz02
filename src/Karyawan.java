@@ -2,8 +2,8 @@ public class Karyawan {
     private int gaji;
     private String nama;
 
-    Karyawan(int iGaji,String sNama){
-        gaji = iGaji;
+    Karyawan(String sNama){
+        gaji = 0;
         nama = sNama;
     }
 
