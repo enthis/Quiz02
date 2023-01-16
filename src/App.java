@@ -33,7 +33,7 @@ public class App {
         Transaksi ts1 = new Transaksi(result2, cPusat.getKaryawanByName("leo"), transactionDateTime2[0],
                 transactionDateTime2[2],
                 transactionDateTime2[1], transactionDateTime2[3], transactionDateTime2[4], transactionDateTime2[5]);
-        
+
         Barang tmp = cPusat.getBarangById(1);
         ts1.setDaftarBarang(tmp, 2);
         cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
@@ -42,7 +42,8 @@ public class App {
         cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
         tmp = cPusat.getBarangById(4);
         ts1.setDaftarBarang(cPusat.getBarangById(4), 10);
-        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+        cPusat.setLbk(
+                new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
 
         transactionDateTime2 = p.getCurrentDatetime();
         result2 = Arrays.stream(transactionDateTime2).mapToObj(String::valueOf)
@@ -57,7 +58,8 @@ public class App {
         cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 2, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
         tmp = cPusat.getBarangById(4);
         ts1.setDaftarBarang(cPusat.getBarangById(4), 10);
-        cPusat.setLbk(new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
+        cPusat.setLbk(
+                new LaporanPendapatanPerhari(tmp.getNama(), 10, tmp.getHarga(), tmp.getId(), tmp.getHargaModal()));
         cPusat.setDaftarTransaksi(ts1);
         do {
             int menu = 0, cabangTerpilih = 0;
@@ -100,38 +102,80 @@ public class App {
                 menu = sc.nextInt();
                 break;
             } while (true);
-            if (menu == 1) {
-                cPusat.showDaftarBarang();
-                System.out.print("Masukan Nama Kasir :");
-                String namaKasir = sc.next();
-                Karyawan cashier = new Karyawan(namaKasir);
-                int[] transactionDateTime = p.getCurrentDatetime();
+            if (cabangTerpilih == 1) {
+                if (menu == 1) {
+                    cPusat.showDaftarBarang();
+                    System.out.print("Masukan Nama Kasir :");
+                    String namaKasir = sc.next();
+                    Karyawan cashier = new Karyawan(namaKasir);
+                    int[] transactionDateTime = p.getCurrentDatetime();
 
-                String result = Arrays.stream(transactionDateTime).mapToObj(String::valueOf)
-                        .collect(Collectors.joining(""));
-                Transaksi ts = new Transaksi(result, cashier, transactionDateTime[0], transactionDateTime[2],
-                        transactionDateTime[1], transactionDateTime[3], transactionDateTime[4], transactionDateTime[5]);
-                do {
-                    System.out.print("Masukan Id Barang (ketik 0 untuk selesai) : ");
-                    int productId = sc.nextInt();
-                    if (productId == 0)
-                        break;
-                    System.out.print("Jumlah : ");
-                    int qty = sc.nextInt();
-                    Barang br = cPusat.getBarangById(productId);
-                    ts.setDaftarBarang(br, qty);
-                } while (true);
-                cPusat.setDaftarTransaksi(ts);
+                    String result = Arrays.stream(transactionDateTime).mapToObj(String::valueOf)
+                            .collect(Collectors.joining(""));
+                    Transaksi ts = new Transaksi(result, cashier, transactionDateTime[0], transactionDateTime[2],
+                            transactionDateTime[1], transactionDateTime[3], transactionDateTime[4],
+                            transactionDateTime[5]);
+                    do {
+                        System.out.print("Masukan Id Barang (ketik 0 untuk selesai) : ");
+                        int productId = sc.nextInt();
+                        if (productId == 0)
+                            break;
+                        System.out.print("Jumlah : ");
+                        int qty = sc.nextInt();
+                        Barang br = cPusat.getBarangById(productId);
+                        ts.setDaftarBarang(br, qty);
+                    } while (true);
+                    cPusat.setDaftarTransaksi(ts);
 
-            } else if (menu == 2) {
-                cPusat.showDaftarTransaksi();
-                System.out.println(menu);
-            } else if (menu == 3) {
-                cPusat.showLaporanPendapatanPerharis();
-            } else if (menu == 4) {
-                cPusat.showLaporanPendapatanPerBulan();
-            } else {
-                System.out.println("Pilihan menu salah");
+                } else if (menu == 2) {
+                    cPusat.showDaftarTransaksi();
+                    System.out.println(menu);
+                } else if (menu == 3) {
+                    cPusat.showLaporanPendapatanPerharis();
+                } else if (menu == 4) {
+                    cPusat.showLaporanPendapatanPerBulan();
+                } else {
+                    System.out.println("Pilihan menu salah");
+                }
+            } else if (cabangTerpilih == 2) {
+                if (menu == 1) {
+                    cBsd.showDaftarBarang();
+                    System.out.print("Masukan Nama Kasir :");
+                    String namaKasir = sc.next();
+                    Karyawan cashier = new Karyawan(namaKasir);
+                    int[] transactionDateTime = p.getCurrentDatetime();
+
+                    String result = Arrays.stream(transactionDateTime).mapToObj(String::valueOf)
+                            .collect(Collectors.joining(""));
+                    Transaksi ts = new Transaksi(result, cashier, transactionDateTime[0], transactionDateTime[2],
+                            transactionDateTime[1], transactionDateTime[3], transactionDateTime[4],
+                            transactionDateTime[5]);
+                    do {
+                        System.out.print("Masukan Id Barang (ketik 0 untuk selesai) : ");
+                        int productId = sc.nextInt();
+                        if (productId == 0)
+                            break;
+                        System.out.print("Jumlah : ");
+                        int qty = sc.nextInt();
+                        Barang br = cBsd.getBarangById(productId);
+                        ts.setDaftarBarang(br, qty);
+                    } while (true);
+                    cBsd.setDaftarTransaksi(ts);
+
+                } else if (menu == 2) {
+                    cBsd.showDaftarTransaksi();
+                    System.out.println(menu);
+                } else if (menu == 3) {
+                    cBsd.showLaporanPendapatanPerharis();
+                } else if (menu == 4) {
+                    cBsd.showLaporanPendapatanPerBulan();
+                } else {
+                    System.out.println("Pilihan menu salah");
+                }
+            } else if (cabangTerpilih == 3) {
+
+            } else if (cabangTerpilih == 4) {
+
             }
             System.in.read();
         } while (true);
